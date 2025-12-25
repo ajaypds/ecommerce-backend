@@ -1,10 +1,12 @@
 package com.example.userservice.controller;
 
+import com.example.userservice.dto.AuthResponse;
 import com.example.userservice.dto.LoginRequest;
 import com.example.userservice.dto.RegisterRequest;
 import com.example.userservice.dto.UserResponse;
 import com.example.userservice.entity.User;
 import com.example.userservice.security.JwtUtil;
+import com.example.userservice.service.AuthService;
 import com.example.userservice.service.UserService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
 
     private final UserService userService;
+    private final AuthService authService;
     private final JwtUtil jwtUtil;
 
 
@@ -31,17 +34,11 @@ public class UserController {
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody LoginRequest request) {
+    public AuthResponse login(@RequestBody LoginRequest request) {
 
-        User user = userService.authenticate(
+        return authService.login(
                 request.getEmail(),
                 request.getPassword()
-        );
-
-        return jwtUtil.generateToken(
-                user.getId().toString(),
-                user.getEmail(),
-                user.getRole()
         );
     }
 

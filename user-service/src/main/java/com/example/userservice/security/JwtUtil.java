@@ -1,5 +1,6 @@
 package com.example.userservice.security;
 
+import com.example.userservice.entity.User;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,14 +13,14 @@ import java.util.Date;
 public class JwtUtil {
 
     private final Key key;
-    private final long expiration;
+    private final long accessExpiration;
 
     public JwtUtil(
             @Value("${jwt.secret}") String secret,
-            @Value("${jwt.expiration}") long expiration) {
+            @Value("${jwt.access.expiration}") long expiration) {
 
         this.key = Keys.hmacShaKeyFor(secret.getBytes());
-        this.expiration = expiration;
+        this.accessExpiration = expiration;
     }
 
     public String generateToken(String userId, String email, String role) {
@@ -29,7 +30,7 @@ public class JwtUtil {
                 .claim("email", email)
                 .claim("role", role)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + expiration))
+                .setExpiration(new Date(System.currentTimeMillis() + accessExpiration))
                 .signWith(key, SignatureAlgorithm.HS256)
                 .compact();
     }
@@ -40,5 +41,13 @@ public class JwtUtil {
                 .build()
                 .parseClaimsJws(token)
                 .getBody();
+    }
+
+    public String generateAccessToken(User user) {
+        return generateToken(
+                user.getId().toString(),
+                user.getEmail(),
+                user.getRole()
+        );
     }
 }

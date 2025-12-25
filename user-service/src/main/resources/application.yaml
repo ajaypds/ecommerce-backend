@@ -19,4 +19,7 @@ spring:
 
 jwt:
   secret: ${JWT_SECRET}
-  expiration: ${JWT_EXPIRATION} # 1 hour
+  access:
+    expiration: ${JWT_EXPIRATION}
+  refresh:
+    expiration: ${JWT_REFRESH_EXPIRATION}
