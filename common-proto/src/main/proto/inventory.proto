@@ -1,0 +1,30 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "com.example.commonproto.inventory";
+option java_outer_classname = "InventoryProto";
+
+service InventoryService {
+
+  rpc CheckStock (StockRequest) returns (StockResponse);
+
+  rpc ReduceStock (ReduceStockRequest) returns (ReduceStockResponse);
+}
+
+message StockRequest {
+  string productId = 1;
+}
+
+message StockResponse {
+  bool available = 1;
+  int32 quantity = 2;
+}
+
+message ReduceStockRequest {
+  string productId = 1;
+  int32 quantity = 2;
+}
+
+message ReduceStockResponse {
+  bool success = 1;
+}

@@ -1,0 +1,63 @@
+# Maven
+/target/
+/pom.xml.tag
+/pom.xml.releaseBackup/
+/pom.xml.versionsBackup/
+/release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Generated sources (protoc/grpc)
+target/generated-sources/
+target/generated-test-sources/
+
+# IDEs
+/.idea/
+/*.iml
+/.vscode/
+/.classpath
+/.project
+/.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+*.tmp
+
+# Misc
+*.class
+```// filepath: c:\Users\Ajay\Documents\repo\my_projects\ecommerce-backend\common-proto\.gitignore
+# Maven
+/target/
+/pom.xml.tag
+/pom.xml.releaseBackup/
+/pom.xml.versionsBackup/
+/release.properties
+dependency-reduced-pom.xml
+buildNumber.properties
+
+# Generated sources (protoc/grpc)
+target/generated-sources/
+target/generated-test-sources/
+
+# IDEs
+/.idea/
+/*.iml
+/.vscode/
+/.classpath
+/.project
+/.settings/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs and temp
+*.log
+*.tmp
+
+# Misc
+*.class
