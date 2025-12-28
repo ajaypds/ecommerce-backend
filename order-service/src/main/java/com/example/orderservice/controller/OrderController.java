@@ -6,6 +6,7 @@ import com.example.orderservice.entity.Order;
 import com.example.orderservice.service.OrderService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -19,13 +20,13 @@ public class OrderController {
 
     @PostMapping
     public OrderResponse createOrder(
-            @RequestHeader("X-User-Id") String userId,
+//            @RequestHeader("X-User-Id") String userId,
+            Authentication authentication,
             @Valid @RequestBody CreateOrderRequest request) {
 
-        Order order = orderService.createOrder(
-                UUID.fromString(userId),
-                request
-        );
+        UUID userId = UUID.fromString((String) authentication.getPrincipal());
+
+        Order order = orderService.createOrder(userId, request);
 
         return new OrderResponse(
                 order.getId().toString(),
