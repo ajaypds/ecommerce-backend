@@ -20,5 +20,8 @@ server:
 grpc:
   client:
     inventory-service:
-      address: inventory-service:9090
+      address: static://inventory-service:9090
       negotiation-type: plaintext
+    payment-service:
+      address: static://payment-service:9091
+      negotiationType: plaintext
