@@ -25,11 +25,19 @@ public class PaymentGrpcService
         // Mock rule: fail if amount > 1000
         boolean success = request.getAmount() <= 1000;
 
+        if(!success){
+            log.info("Payment failed due to amount exceeding limit for orderId={}", request.getOrderId());
+        }
+
         PaymentResponse response = PaymentResponse.newBuilder()
                 .setSuccess(success)
                 .setTransactionId(UUID.randomUUID().toString())
                 .setMessage(success ? "PAYMENT_SUCCESS" : "PAYMENT_FAILED")
                 .build();
+
+        log.info(success ?
+                "Payment successful for orderId={}" :
+                "Payment failed for orderId={}", request.getOrderId());
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
