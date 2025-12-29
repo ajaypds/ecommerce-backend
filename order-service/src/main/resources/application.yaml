@@ -28,3 +28,33 @@ grpc:
     payment-service:
       address: static://payment-service:9091
       negotiationType: plaintext
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      inventoryService:
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        slidingWindowSize: 10
+        waitDurationInOpenState: 10s
+      paymentService:
+        failureRateThreshold: 50
+        minimumNumberOfCalls: 5
+        slidingWindowSize: 10
+        waitDurationInOpenState: 10s
+
+  retry:
+    instances:
+      inventoryService:
+        maxAttempts: 3
+        waitDuration: 500ms
+      paymentService:
+        maxAttempts: 2
+        waitDuration: 500ms
+
+  timelimiter:
+    instances:
+      inventoryService:
+        timeoutDuration: 2s
+      paymentService:
+        timeoutDuration: 2s
