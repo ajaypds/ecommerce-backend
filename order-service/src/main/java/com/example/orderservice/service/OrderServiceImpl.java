@@ -37,8 +37,10 @@ public class OrderServiceImpl implements OrderService {
         );
 
         if (!available) {
+            log.info("Insufficient stock for productId={}", request.getProductId());
             throw new BadRequestException("Insufficient stock");
         }
+        log.info("Stock available for productId={}", request.getProductId());
 
         Order order = Order.builder()
                 .userId(userId)
@@ -59,10 +61,12 @@ public class OrderServiceImpl implements OrderService {
                 );
 
         if (!paymentResponse.getSuccess()) {
+            log.info("Payment failed for orderId={}", order.getId());
             order.setStatus(OrderStatus.FAILED);
             orderRepository.save(order);
             throw new BadRequestException("Payment failed");
         }
+        log.info("Payment successful for orderId={}", order.getId());
 
         inventoryClient.reduceStock(
                 request.getProductId(),
@@ -70,6 +74,7 @@ public class OrderServiceImpl implements OrderService {
         );
 
         order.setStatus(OrderStatus.CREATED);
+        log.info("Order created successfully with orderId={}", order.getId());
 
         return orderRepository.save(order);
     }
