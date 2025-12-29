@@ -2,7 +2,9 @@ package com.example.inventoryservice.grpc;
 
 import com.example.commonproto.inventory.*;
 import com.example.inventoryservice.entity.Inventory;
+import com.example.inventoryservice.exception.ConcurrentUpdateException;
 import com.example.inventoryservice.service.InventoryService;
+import io.grpc.Status;
 import io.grpc.stub.StreamObserver;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -38,18 +40,26 @@ public class InventoryGrpcService
             ReduceStockRequest request,
             StreamObserver<ReduceStockResponse> responseObserver) {
 
-        inventoryService.reduceStock(
-                request.getProductId(),
-                request.getQuantity()
-        );
+        try{
+            inventoryService.reduceStock(
+                    request.getProductId(),
+                    request.getQuantity()
+            );
 
-        ReduceStockResponse response =
-                ReduceStockResponse.newBuilder()
-                        .setSuccess(true)
-                        .build();
+            ReduceStockResponse response =
+                    ReduceStockResponse.newBuilder()
+                            .setSuccess(true)
+                            .build();
 
-        responseObserver.onNext(response);
-        responseObserver.onCompleted();
+            responseObserver.onNext(response);
+            responseObserver.onCompleted();
+        } catch(ConcurrentUpdateException e){
+            responseObserver.onError(
+                    Status.ABORTED
+                            .withDescription(e.getMessage())
+                            .asRuntimeException()
+            );
+        }
     }
 }
 
