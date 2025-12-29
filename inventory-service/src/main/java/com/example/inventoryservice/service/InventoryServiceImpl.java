@@ -33,9 +33,11 @@ public class InventoryServiceImpl implements InventoryService {
         }
 
         inventory.setQuantity(inventory.getQuantity() - quantity);
+
+        // version is checked automatically here
         inventoryRepository.save(inventory);
 
-        log.info("Stock reduced for productId={}, remaining={}",
-                productId, inventory.getQuantity());
+        log.info("Stock updated for productId={}, remaining={}, version={}",
+                productId, inventory.getQuantity(), inventory.getVersion());
     }
 }
