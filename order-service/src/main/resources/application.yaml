@@ -58,3 +58,12 @@ resilience4j:
         timeoutDuration: 2s
       paymentService:
         timeoutDuration: 2s
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,prometheus
+  endpoint:
+    health:
+      show-details: always
