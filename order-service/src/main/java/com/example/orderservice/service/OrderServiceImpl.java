@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
                 .userId(userId)
                 .productId(request.getProductId())
                 .quantity(request.getQuantity())
-                .totalAmount(BigDecimal.valueOf(1200)) // mock price
+                .totalAmount(BigDecimal.valueOf(800)) // mock price
                 .status(OrderStatus.CREATED)
                 .createdAt(Instant.now())
                 .build();
