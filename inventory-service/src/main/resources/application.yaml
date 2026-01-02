@@ -18,6 +18,12 @@ grpc:
   server:
     port: 9090
     address: 0.0.0.0
+    security:
+      enabled: true
+      certificateChain: file:/etc/certs/inventory.crt
+      privateKey: file:/etc/certs/inventory.key
+      trustCertCollection: file:/etc/certs/ca.crt
+      clientAuth: REQUIRE
 
 server:
   port: 8083

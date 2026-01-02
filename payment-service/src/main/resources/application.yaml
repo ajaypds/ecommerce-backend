@@ -5,6 +5,12 @@ spring:
 grpc:
   server:
     port: 9091
+    security:
+      enabled: true
+      certificateChain: file:/etc/certs/payment.crt
+      privateKey: file:/etc/certs/payment.key
+      trustCertCollection: file:/etc/certs/ca.crt
+      clientAuth: REQUIRE
 
 management:
   endpoints:

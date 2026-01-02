@@ -22,12 +22,27 @@ jwt:
 
 grpc:
   client:
-    inventory-service:
-      address: static://inventory-service:9090
-      negotiation-type: plaintext
-    payment-service:
-      address: static://payment-service:9091
-      negotiationType: plaintext
+    inventoryService:
+      address: inventory-service
+      port: 9090
+#      negotiationType: TLS
+#      security:
+#        certificateChain: ${GRPC_CLIENT_CERT_CHAIN}
+#        privateKey: ${GRPC_CLIENT_PRIVATE_KEY}
+#        trustCertCollection: ${GRPC_TRUST_CERT_COLLECTION}
+#
+    paymentService:
+      address: payment-service
+      port: 9091
+#      negotiationType: TLS
+#      security:
+#        trustCertCollection: ${GRPC_TRUST_CERT_COLLECTION}
+#        certificateChain: ${GRPC_CLIENT_CERT_CHAIN}
+#        clientPrivateKey: ${GRPC_CLIENT_PRIVATE_KEY}
+certs:
+  certificateChain: ${GRPC_CLIENT_CERT_CHAIN}
+  privateKey: ${GRPC_CLIENT_PRIVATE_KEY}
+  trustCertCollection: ${GRPC_TRUST_CERT_COLLECTION}
 
 resilience4j:
   circuitbreaker:
@@ -67,3 +82,11 @@ management:
   endpoint:
     health:
       show-details: always
+
+logging:
+  level:
+#    io.grpc.netty: DEBUG
+#    io.netty.handler.ssl: DEBUG
+#    io.grpc: DEBUG
+    net.devh.boot.grpc.client: DEBUG
+
