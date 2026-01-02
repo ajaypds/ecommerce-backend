@@ -7,6 +7,7 @@ import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.RequiredArgsConstructor;
 import net.devh.boot.grpc.client.inject.GrpcClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.concurrent.TimeUnit;
@@ -15,7 +16,8 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor
 public class PaymentClient {
 
-    @GrpcClient("payment-service")
+//    @GrpcClient("paymentService")
+    @Autowired
     private PaymentServiceGrpc.PaymentServiceBlockingStub stub;
 
     @CircuitBreaker(name = "paymentService", fallbackMethod = "fallbackPayment")

@@ -3,6 +3,7 @@ package com.example.orderservice.grpc;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import io.github.resilience4j.retry.annotation.Retry;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.example.commonproto.inventory.InventoryServiceGrpc;
@@ -20,7 +21,8 @@ import java.util.concurrent.TimeUnit;
 @Slf4j
 public class InventoryClient {
 
-    @GrpcClient("inventory-service")
+//    @GrpcClient("inventoryService")
+    @Autowired
     private InventoryServiceGrpc.InventoryServiceBlockingStub stub;
 
     @CircuitBreaker(name = "inventoryService", fallbackMethod = "fallbackStock")
@@ -31,7 +33,7 @@ public class InventoryClient {
                 .setProductId(productId)
                 .build();
 
-        StockResponse response = stub.withDeadlineAfter(2, TimeUnit.SECONDS)
+        StockResponse response = stub.withDeadlineAfter(4, TimeUnit.SECONDS)
                                 .checkStock(request);
 
         return response.getAvailable()
@@ -47,7 +49,7 @@ public class InventoryClient {
                 .setQuantity(quantity)
                 .build();
 
-        stub.withDeadlineAfter(2, TimeUnit.SECONDS)
+        stub.withDeadlineAfter(4, TimeUnit.SECONDS)
                 .reduceStock(request);
     }
 
@@ -60,6 +62,7 @@ public class InventoryClient {
 
         // Fail fast
         log.info("Inventory service unavailable, cannot verify stock for productId={}", productId);
+        log.error("Inventory service unavailable for productId={}, cause={}", productId, ex.toString(), ex);
         return false;
     }
 
