@@ -1,8 +1,8 @@
-# E-Commerce Backend Microservices
+# E-Commerce Backend – Spring Boot Microservices Architecture
 
 This project is a robust e-commerce backend built using Java and Spring Boot, following a microservices architecture. It demonstrates inter-service communication using gRPC, centralized routing with Spring Cloud Gateway, and observability with Prometheus and Grafana.
 
-## 🏗 Architecture
+## 🏗 Architecture Overview
 
 The system consists of the following microservices:
 
@@ -11,6 +11,36 @@ The system consists of the following microservices:
 - **Order Service** (`order-service`): Handles order placement and management. Communicates with Inventory and Payment services via gRPC.
 - **Inventory Service** (`inventory-service`): Manages product stock levels.
 - **Payment Service** (`payment-service`): Processes payments.
+
+## Key Features
+
+### 🔐 Security
+
+- JWT-based authentication with decentralized token validation
+- Mutual TLS (mTLS) for secure gRPC service-to-service communication
+- Internal CA, SANs, EKU, PKCS#8 keys configuration
+
+### ⚡ Performance & Communication
+
+- REST APIs for external clients
+- gRPC for low-latency internal communication
+- Manual gRPC channel configuration for correct TLS binding
+
+### 🛡 Reliability & Fault Tolerance
+
+- Optimistic locking in Inventory Service to prevent overselling
+- Automatic retries for transient failures
+- Circuit breakers and timeouts using Resilience4j
+
+### 📊 Monitoring & Observability
+
+- Metrics exposed via Micrometer
+- Monitoring dashboards using Prometheus and Grafana
+
+### 🐳 Deployment
+
+- Dockerized all services
+- Production-ready container configuration
 
 ## 🛠 Tech Stack
 
