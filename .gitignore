@@ -4,3 +4,5 @@ docker-compose.yml
 prometheus.yml
 certs
 .vscode
+commands.*
+architecture.*
